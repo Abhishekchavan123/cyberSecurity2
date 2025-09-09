@@ -6,6 +6,14 @@ import os
 from urllib.parse import urlparse
 import json
 
+
+# ... your existing code ...
+
+if __name__ == '__main__':
+    # For production, use 0.0.0.0 instead of 127.0.0.1
+    app.run(host='0.0.0.0', port=5000, debug=False)
+
+    
 # Try to import Supabase, but fallback if not available
 try:
     from supabase import create_client, Client
